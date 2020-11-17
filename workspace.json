@@ -1,7 +1,59 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "store": {
+      "root": "apps/store",
+      "sourceRoot": "apps/store/src",
+      "projectType": "application",
+      "prefix": "store",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/store",
+            "main": "apps/store/src/main.ts",
+            "tsConfig": "apps/store/tsconfig.app.json",
+            "assets": ["apps/store/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/store/src/environments/environment.ts",
+                  "with": "apps/store/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "store:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/store/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/store/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  }
+    "defaultCollection": "@nrwl/nest"
+  },
+  "defaultProject": "store"
 }
